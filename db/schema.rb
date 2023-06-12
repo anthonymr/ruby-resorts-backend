@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_12_092835) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_12_114116) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -40,6 +40,21 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_12_092835) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "basket_a", primary_key: "a", id: :integer, default: nil, force: :cascade do |t|
+    t.string "fruit_a", limit: 100, null: false
+  end
+
+  create_table "basket_b", primary_key: "b", id: :integer, default: nil, force: :cascade do |t|
+    t.string "fruit_b", limit: 100, null: false
+  end
+
+  create_table "hotels", force: :cascade do |t|
+    t.string "name"
+    t.string "city"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "rooms", force: :cascade do |t|
