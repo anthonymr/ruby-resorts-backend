@@ -1,5 +1,5 @@
 class AuthenticationController < ApplicationController
-  skip_before_action :authenticate_user
+  skip_before_action :authenticate_user, only: :create
 
   def create
     @user = User.find_by(username: params[:username])
@@ -16,5 +16,9 @@ class AuthenticationController < ApplicationController
   def destroy
     @current_user&.update(jti: nil)
     render json: { status: 200, message: 'Logged out' }
+  end
+
+  def show
+    render json: @current_user.attributes.except('password', 'password_digest'), status: 200
   end
 end
