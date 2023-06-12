@@ -27,6 +27,7 @@ class RoomsController < ApplicationController
     if @current_user.admin?
       room.destroy
       render json: room, status: 200
+      return
     end
 
     forbidden
