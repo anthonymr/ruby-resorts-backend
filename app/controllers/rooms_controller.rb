@@ -1,6 +1,7 @@
 class RoomsController < ApplicationController
   def index
-    render json: Room.all, status: 200
+    rooms = Room.all.with_attached_image
+    render json: rooms, status: 200
   end
 
   def show
@@ -38,10 +39,10 @@ class RoomsController < ApplicationController
   private
 
   def room_params
-    params.require(:room).permit(:name, :description, :full_price, :reservation_price, :reservation_fee, :rating)
+    params.require(:room).permit(:name, :description, :full_price, :reservation_price, :reservation_fee, :rating, :image)
   end
 
   def room
-    @room ||= Room.find(params[:id])
+    @room ||= Room.find(params[:id]).with_attached_image
   end
 end
