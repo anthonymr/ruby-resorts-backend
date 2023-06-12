@@ -3,6 +3,14 @@ class ApplicationController < ActionController::API
 
   before_action :authenticate_user
 
+  def forbidden
+    render json: { errors: ['Not authorized'] }, status: 403
+  end
+
+  def not_found(item)
+    render json: { errors: ["#{item} not found"] }, status: 404
+  end
+
   private
 
   def authenticate_user
