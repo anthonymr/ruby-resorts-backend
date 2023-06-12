@@ -10,9 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_07_141246) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_12_080057) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "rooms", force: :cascade do |t|
+    t.string "name", limit: 55, null: false
+    t.string "description", limit: 55, null: false
+    t.decimal "full_price", precision: 10, scale: 2, null: false
+    t.decimal "reservation_price", precision: 10, scale: 2, null: false
+    t.decimal "reservation_fee", precision: 10, scale: 2, null: false
+    t.integer "rating"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "name", null: false
