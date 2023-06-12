@@ -15,11 +15,16 @@ class UsersController < ApplicationController
   end
 
   def update
-    if current_user.update(user_params)
-      render json: current_user, status: 200
-    else
-      render json: { errors: current_user.errors.full_messages }, status: 400
+    if params[:password].present?
+      if current_user.update(user_update_params)
+        render json: current_user.attributes.except('password', 'password_digest'), status: 200
+      else
+        render json: { errors: current_user.errors.full_messages }, status: 400
+      end
+      return
     end
+
+    render json: { errors: 'Password can\'t be blank' }, status: 400
   end
 
   def destroy
@@ -30,6 +35,10 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:name, :username, :email, :password)
+  end
+
+  def user_update_params
+    params.require(:user).permit(:password)
   end
 
   def current_user
