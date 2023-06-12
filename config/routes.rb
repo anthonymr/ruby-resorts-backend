@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     scope 'v1' do
       resources :users, only: %i[create update destroy show]
       resources :rooms, only: %i[create destroy show index]
+      resources :hotels, only: %i[:index]
 
       post 'authentication', to: 'authentication#create'
       delete 'authentication', to: 'authentication#destroy'
