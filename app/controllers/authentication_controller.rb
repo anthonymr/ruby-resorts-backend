@@ -14,7 +14,7 @@ class AuthenticationController < ApplicationController
   end
 
   def destroy
-    @current_user&.update(jti: nil)
+    @current_user = nil
     render json: { status: 200, message: 'Logged out' }
   end
 
