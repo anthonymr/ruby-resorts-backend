@@ -5,6 +5,8 @@ Rails.application.routes.draw do
       patch 'users', to: 'users#update'
       resources :rooms, only: %i[create destroy show index]
       resources :hotels, only: :index
+      resources :reservations, only: %i[index show create destroy]
+
 
       post 'authentication', to: 'authentication#create'
       delete 'authentication', to: 'authentication#destroy'
