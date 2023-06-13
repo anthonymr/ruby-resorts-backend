@@ -42,14 +42,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_12_141852) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "basket_a", primary_key: "a", id: :integer, default: nil, force: :cascade do |t|
-    t.string "fruit_a", limit: 100, null: false
-  end
-
-  create_table "basket_b", primary_key: "b", id: :integer, default: nil, force: :cascade do |t|
-    t.string "fruit_b", limit: 100, null: false
-  end
-
   create_table "hotels", force: :cascade do |t|
     t.string "name"
     t.string "city"
