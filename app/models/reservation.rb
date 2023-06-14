@@ -10,8 +10,7 @@ class Reservation < ApplicationRecord
   def calculate_amount
     room = Room.find_by(id: room_id)
     return 0 unless room
-  
+
     (end_date - start_date).to_i * room.reservation_price
   end
-
 end
