@@ -6,6 +6,7 @@ class Reservation < ApplicationRecord
   validates :end_date, presence: true
   validates :room_id, presence: true
   validates :user_id, presence: true
+  validates :hotel_id, presence: true
 
   def calculate_amount
     room = Room.find_by(id: room_id)
