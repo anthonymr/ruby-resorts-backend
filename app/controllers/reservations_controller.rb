@@ -16,9 +16,9 @@ class ReservationsController < ApplicationController
     reservation = Reservation.new(reservation_params)
     reservation.calculate_amount
     if reservation.save
-      render json: reservation, status: 200
+      render json: reservation, status: :created
     else
-      render json: reservation.errors, status: 400
+      render json: reservation.errors, status: :unprocessable_entity
     end
   end
 
@@ -31,6 +31,8 @@ class ReservationsController < ApplicationController
 
   def set_reservation
     @reservation = Reservation.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    render json: { error: 'Reservation not found' }, status: :not_found
   end
 
   def reservation_params
