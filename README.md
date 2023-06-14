@@ -38,7 +38,8 @@
 
 **Ruby Resorts BE** is the Back End project for Ruby Resorts Final Capstone Project.
 
-[API Documentation](./readme-res/API.md)
+- [API Documentation](./readme-res/API.md)
+- [Frontend repository](https://github.com/anthonymr/ruby-resorts-frontend)
 
 
 ## 🛠 Built With <a name="built-with"></a>
