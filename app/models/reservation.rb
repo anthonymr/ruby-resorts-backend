@@ -10,9 +10,11 @@ class Reservation < ApplicationRecord
 
   def calculate_amount
     room = Room.find_by(id: room_id)
-    return 0 unless room
-
-    (end_date - start_date).to_i * room.reservation_price
+    if new_record?
+      self.amount = room.reservation_price.present? ? (end_date - start_date).to_i * room.reservation_price : 0
+    else
+      update(amount: room.reservation_price.present? ? (end_date - start_date).to_i * room.reservation_price : 0)
+    end
   end
 
   def with_child_data
