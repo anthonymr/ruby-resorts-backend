@@ -6,11 +6,11 @@ class ReservationsController < ApplicationController
 
     reservations = reservations.map(&:with_child_data)
 
-    render json: reservations.with_child_data, status: 200
+    render json: reservations, status: 200
   end
 
   def show
-    render json: @reservation, status: 200
+    render json: @reservation.with_child_data, status: 200
   rescue ActiveRecord::RecordNotFound
     not_found('Reservation')
   end
