@@ -5,7 +5,7 @@ class RoomsController < ApplicationController
 
   def index
     rooms = Room.all.with_attached_image.map do |room|
-      room.image.attached? ? room.as_json.merge(image: url_for(room.image)) : room.as_json
+      room.image.attached? ? room.as_json(only: %i[id name description]).merge(image: url_for(room.image)) : room.as_json
     end
 
     render json: rooms, status: 200
