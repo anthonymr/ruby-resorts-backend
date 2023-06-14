@@ -12,9 +12,9 @@ class Room < ApplicationRecord
 
   def with_image(image_url, full_data: true)
     return as_json unless image.attached?
-    return as_json.merge(image:) unless full_data
+    return as_json.merge(image_url:) unless full_data
 
-    as_json(only: %i[id name description]).merge(image: image_url)
+    as_json(only: %i[id name description]).merge(image_url:)
   end
 
   def self.new_with_image(room_params, image)
