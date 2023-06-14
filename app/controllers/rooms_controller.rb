@@ -5,31 +5,21 @@ class RoomsController < ApplicationController
 
   def index
     rooms = Room.all.with_attached_image.map do |room|
-      room.image.attached? ? room.as_json(only: %i[id name description]).merge(image: url_for(room.image)) : room.as_json
+      room.with_image(url_for(room.image), full_data: false)
     end
 
     render json: rooms, status: 200
   end
 
   def show
-    room_to_show = room.as_json
-    room_to_show = room_to_show.merge(image: url_for(room.image)) if room.image.attached?
-
-    render json: room_to_show, status: 200
+    render json: room.with_image(url_for(room.image)), status: 200
   rescue ActiveRecord::RecordNotFound
     not_found('Room')
   end
 
   def create
     if @current_user.admin?
-      new_room = Room.new(room_params.except(:image))
-      decoded_data = Base64.decode64(params[:image].split(',')[1])
-
-      new_room.image = {
-        io: StringIO.new(decoded_data),
-        content_type: 'image/png',
-        filename: 'image.png'
-      }
+      new_room = Room.new_with_image(room_params, params[:image])
 
       if new_room.save
         render json: new_room, status: 201
