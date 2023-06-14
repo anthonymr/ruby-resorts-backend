@@ -13,7 +13,7 @@ user.save
 hotel = Hotel.create(name: 'Hotel 1', city: 'City 1')
 
 ##first room
-room1 = Room.new(name: 'Example room 1', description: 'Example description 1',
+room1 = Room.new(name: 'Ruby', description: 'Ruby Suites offer the best we at Ruby Resorts have to offer. The suites come with 5-star amenities',
     full_price: 100, reservation_price: 10,
     reservation_fee: 10, rating: 5)
 room1.image.attach(
@@ -24,7 +24,7 @@ content_type: 'image/jpg'
 room1.save
 
 ##second room
-room2 = Room.new(name: 'Example room 2', description: 'Example description 2',
+room2 = Room.new(name: 'Emerald', description: 'Emerald Suites are second only to our Ruby Suites when it comes to luxury. The suites come with 5-star amenities',
     full_price: 200, reservation_price: 20,
     reservation_fee: 10, rating: 4)
 room2.image.attach(
@@ -35,7 +35,7 @@ content_type: 'image/jpg'
 room2.save
 
 ##third room
-room3 = Room.new(name: 'Example room 3', description: 'Example description 3',
+room3 = Room.new(name: 'Diamond', description: 'Diamond Suites strike the right balance between luxury and price. The suites have family-friendly amenities',
     full_price: 300, reservation_price: 10,
     reservation_fee: 10, rating: 4)
 room3.image.attach(
@@ -46,7 +46,7 @@ content_type: 'image/jpg'
 room3.save
 
 ##fourth room
-room4 = Room.new(name: 'Example room 4', description: 'Example description 4',
+room4 = Room.new(name: 'Gold', description: 'Traveling for work or pleasure or both? Our Gold Executive suites offer amenities suited for your business trips.',
     full_price: 100, reservation_price: 10,
     reservation_fee: 10, rating: 5)
 room4.image.attach(
@@ -58,7 +58,7 @@ room4.save
 
 ##fifth room
 
-room5 = Room.new(name: 'Example room 5', description: 'Example description 5',
+room5 = Room.new(name: 'Silver', description: 'Silver Family Suites are well-equipped to accommodate your family during your vacation or getaways. ',
     full_price: 100, reservation_price: 10,
     reservation_fee: 10, rating: 5)
 room5.image.attach(
