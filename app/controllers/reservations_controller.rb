@@ -6,7 +6,7 @@ class ReservationsController < ApplicationController
 
     reservations = reservations.map(&:with_child_data)
 
-    render json: reservations, status: 200
+    render json: reservations.with_child_data, status: 200
   end
 
   def show
