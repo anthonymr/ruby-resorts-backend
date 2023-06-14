@@ -9,12 +9,12 @@ class Reservation < ApplicationRecord
   validates :hotel_id, presence: true
 
   def calculate_amount!
+    new_record? ? self.amount = calculate_amount : update(amount: calculate_amount)
+  end
+
+  def calculate_amount
     room = Room.find_by(id: room_id)
-    if new_record?
-      self.amount = room.reservation_price.present? ? (end_date - start_date).to_i * room.reservation_price : 0
-    else
-      update(amount: room.reservation_price.present? ? (end_date - start_date).to_i * room.reservation_price : 0)
-    end
+    room.reservation_price.present? ? (end_date - start_date).to_i * room.reservation_price : 0
   end
 
   def with_child_data
