@@ -17,7 +17,7 @@ class ReservationsController < ApplicationController
 
   def create
     reservation = Reservation.new(reservation_params)
-    reservation.calculate_amount
+    reservation.calculate_amount!
     if reservation.save
       render json: reservation, status: :created
     else

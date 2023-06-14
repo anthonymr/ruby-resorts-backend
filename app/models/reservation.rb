@@ -8,7 +8,7 @@ class Reservation < ApplicationRecord
   validates :user_id, presence: true
   validates :hotel_id, presence: true
 
-  def calculate_amount
+  def calculate_amount!
     room = Room.find_by(id: room_id)
     if new_record?
       self.amount = room.reservation_price.present? ? (end_date - start_date).to_i * room.reservation_price : 0
