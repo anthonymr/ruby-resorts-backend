@@ -2,7 +2,10 @@ class ReservationsController < ApplicationController
   before_action :set_reservation, only: %i[show destroy]
 
   def index
-    reservations = Reservation.all
+    reservations = @current_user.reservations.includes(:user, :hotel, :room).all
+
+    reservations = reservations.map(&:with_child_data)
+
     render json: reservations, status: 200
   end
 
@@ -31,6 +34,7 @@ class ReservationsController < ApplicationController
 
   def set_reservation
     @reservation = Reservation.find(params[:id])
+    return forbidden unless @current_user.id == @reservation.user_id
   rescue ActiveRecord::RecordNotFound
     render json: { error: 'Reservation not found' }, status: :not_found
   end
