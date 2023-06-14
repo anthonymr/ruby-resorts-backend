@@ -3,7 +3,7 @@ class Room < ApplicationRecord
   has_many :reservations, dependent: :destroy
 
   validates :name, presence: true, length: { maximum: 55 }
-  validates :description, presence: true, length: { maximum: 55 }
+  validates :description, presence: true, length: { maximum: 500 }
   validates :full_price, presence: true, numericality: { greater_than: 0 }
   validates :reservation_price, presence: true, numericality: { greater_than: 0 }
   validates :reservation_fee, presence: true, numericality: { greater_than: 0 }
