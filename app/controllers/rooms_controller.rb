@@ -1,23 +1,32 @@
 class RoomsController < ApplicationController
+  before_action do
+    ActiveStorage::Current.host = request.base_url
+  end
+
   def index
-    rooms = Room.all.with_attached_image
+    rooms = Room.all.with_attached_image.map do |room|
+      room.with_image(url_for(room.image), full_data: false)
+    end
+
     render json: rooms, status: 200
   end
 
   def show
-    render json: room, status: 200
+    render json: room.with_image(url_for(room.image)), status: 200
   rescue ActiveRecord::RecordNotFound
     not_found('Room')
   end
 
   def create
     if @current_user.admin?
-      room = Room.new(room_params)
-      if room.save
-        render json: room, status: 201
+      new_room = Room.new_with_image(room_params, params[:image])
+
+      if new_room.save
+        render json: new_room, status: 201
       else
-        render json: { errors: room.errors.full_messages }, status: 400
+        render json: { errors: new_room.errors.full_messages }, status: 400
       end
+
       return
     end
 
@@ -39,10 +48,18 @@ class RoomsController < ApplicationController
   private
 
   def room_params
-    params.permit(:name, :description, :full_price, :reservation_price, :reservation_fee, :rating, :image)
+    params.require(:room).permit(
+      :name,
+      :description,
+      :full_price,
+      :reservation_price,
+      :reservation_fee,
+      :rating,
+      :image
+    )
   end
 
   def room
-    @room ||= Room.find(params[:id])
+    @room ||= Room.with_attached_image.find(params[:id])
   end
 end
