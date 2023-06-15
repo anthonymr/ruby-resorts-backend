@@ -2,8 +2,10 @@ class Reservation < ApplicationRecord
   belongs_to :user
   belongs_to :hotel
   belongs_to :room
-  validates :start_date, presence: true
-  validates :end_date, presence: true
+  validates :start_date, presence: true, date: { after_or_equal_to: Date.today },
+                         format: { with: /\d{4}-\d{2}-\d{2}/, message: 'Format: YYYY-MM-DD' }
+  validates :end_date, presence: true, date: { after: :start_date },
+                       format: { with: /\d{4}-\d{2}-\d{2}/, message: 'Format: YYYY-MM-DD' }
   validates :room_id, presence: true
   validates :user_id, presence: true
   validates :hotel_id, presence: true
