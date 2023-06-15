@@ -17,6 +17,7 @@ class ReservationsController < ApplicationController
 
   def create
     reservation = Reservation.new(reservation_params)
+    reservation.user_id = @current_user.id
     reservation.calculate_amount!
     if reservation.save
       render json: reservation, status: :created
@@ -40,6 +41,6 @@ class ReservationsController < ApplicationController
   end
 
   def reservation_params
-    params.permit(:start_date, :end_date, :user_id, :hotel_id, :room_id)
+    params.permit(:start_date, :end_date, :hotel_id, :room_id)
   end
 end
