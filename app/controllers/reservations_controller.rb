@@ -11,7 +11,7 @@ class ReservationsController < ApplicationController
 
   def show
     return forbidden unless @current_user.id == @reservation.user_id
-    
+
     render json: @reservation.with_child_data, status: 200
   rescue ActiveRecord::RecordNotFound
     not_found('Reservation')

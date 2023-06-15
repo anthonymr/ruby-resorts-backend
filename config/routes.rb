@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  mount Rswag::Ui::Engine => '/api-docs'
+  mount Rswag::Api::Engine => '/api-docs'
   scope 'api' do
     scope 'v1' do
       resources :users, only: %i[create destroy]
