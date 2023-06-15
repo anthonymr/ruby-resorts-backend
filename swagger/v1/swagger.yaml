@@ -21,16 +21,6 @@ servers:
     defaultHost:
       default: localhost:3000
 paths:
-  "/api/v1/hotels":
-    get:
-      tags:
-      - "\U0001F3E8 Hotels"
-      security:
-      - bearerAuth: []
-      summary: List all hotels
-      responses:
-        '200':
-          description: successful
   "/api/v1/authentication":
     post:
       tags:
@@ -68,68 +58,73 @@ paths:
       responses:
         '200':
           description: successful
-  "/api/v1/reservations":
-    get:
+  "/api/v1/users":
+    post:
       tags:
-      - "\U0001F5D3️ Reservations"
-      security:
-      - bearerAuth: []
-      summary: List all current user's reservations
+      - "\U0001F465 Users"
+      parameters:
+      - name: name
+        in: query
+        type: string
+        description: name
+        required: true
+      - name: email
+        in: query
+        type: string
+        description: email
+        required: true
+      - name: username
+        in: query
+        type: string
+        description: username
+        required: true
+      - name: password
+        in: query
+        type: string
+        description: password
+        required: true
+      summary: Create a new user
       responses:
         '200':
           description: successful
-    post:
+    patch:
       tags:
-      - "\U0001F5D3️ Reservations"
+      - "\U0001F465 Users"
       security:
       - bearerAuth: []
       parameters:
-      - name: hotel_id
+      - name: password
         in: query
         type: string
-        description: hotel_id
+        description: password
         required: true
-      - name: room_id
-        in: query
-        type: string
-        description: room_id
-        required: true
-      - name: start_date
-        in: query
-        type: string
-        description: start_date
-        required: true
-      - name: end_date
-        in: query
-        type: string
-        description: end_date
-        required: true
-      summary: Create new current user's reservation
+      summary: Change current user's password
       responses:
         '200':
           description: successful
-  "/api/v1/reservations/{id}":
+  "/api/v1/users/{id}":
     parameters:
     - name: id
       in: path
       type: string
       description: id
       required: true
-    get:
+    delete:
       tags:
-      - "\U0001F5D3️ Reservations"
+      - "\U0001F465 Users"
       security:
       - bearerAuth: []
-      summary: Show a current user's reservation
+      summary: Delete a user
       responses:
         '200':
           description: successful
-    delete:
+  "/api/v1/hotels":
+    get:
       tags:
-      - "\U0001F5D3️ Reservations"
+      - "\U0001F3E8 Hotels"
       security:
       - bearerAuth: []
-      summary: Delete a current user's reservation
+      summary: List all hotels
       responses:
         '200':
           description: successful
@@ -212,63 +207,68 @@ paths:
       responses:
         '200':
           description: successful
-  "/api/v1/users":
-    post:
+  "/api/v1/reservations":
+    get:
       tags:
-      - "\U0001F465 Users"
-      parameters:
-      - name: name
-        in: query
-        type: string
-        description: name
-        required: true
-      - name: email
-        in: query
-        type: string
-        description: email
-        required: true
-      - name: username
-        in: query
-        type: string
-        description: username
-        required: true
-      - name: password
-        in: query
-        type: string
-        description: password
-        required: true
-      summary: Create a new user
+      - "\U0001F5D3️ Reservations"
+      security:
+      - bearerAuth: []
+      summary: List all current user's reservations
       responses:
         '200':
           description: successful
-    patch:
+    post:
       tags:
-      - "\U0001F465 Users"
+      - "\U0001F5D3️ Reservations"
       security:
       - bearerAuth: []
       parameters:
-      - name: password
+      - name: hotel_id
         in: query
         type: string
-        description: password
+        description: hotel_id
         required: true
-      summary: Change current user's password
+      - name: room_id
+        in: query
+        type: string
+        description: room_id
+        required: true
+      - name: start_date
+        in: query
+        type: string
+        description: start_date
+        required: true
+      - name: end_date
+        in: query
+        type: string
+        description: end_date
+        required: true
+      summary: Create new current user's reservation
       responses:
         '200':
           description: successful
-  "/api/v1/users/{id}":
+  "/api/v1/reservations/{id}":
     parameters:
     - name: id
       in: path
       type: string
       description: id
       required: true
-    delete:
+    get:
       tags:
-      - "\U0001F465 Users"
+      - "\U0001F5D3️ Reservations"
       security:
       - bearerAuth: []
-      summary: Delete a user
+      summary: Show a current user's reservation
+      responses:
+        '200':
+          description: successful
+    delete:
+      tags:
+      - "\U0001F5D3️ Reservations"
+      security:
+      - bearerAuth: []
+      summary: Delete a current user's reservation
       responses:
         '200':
           description: successful

@@ -129,14 +129,14 @@ RSpec.configure do |config|
       components:,
       servers:,
       paths: {
-        '/api/v1/hotels' => hotels_endpoints,
         '/api/v1/authentication' => authentication_endpoints,
-        '/api/v1/reservations' => reservations_endpoints,
-        '/api/v1/reservations/{id}' => reservation_endpoints,
+        '/api/v1/users' => users_endpoints,
+        '/api/v1/users/{id}' => user_endpoints,
+        '/api/v1/hotels' => hotels_endpoints,
         '/api/v1/rooms' => rooms_endpoints,
         '/api/v1/rooms/{id}' => room_endpoints,
-        '/api/v1/users' => users_endpoints,
-        '/api/v1/users/{id}' => user_endpoints
+        '/api/v1/reservations' => reservations_endpoints,
+        '/api/v1/reservations/{id}' => reservation_endpoints
       }
     }
   }
