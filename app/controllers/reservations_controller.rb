@@ -10,6 +10,8 @@ class ReservationsController < ApplicationController
   end
 
   def show
+    return forbidden unless @current_user.id == @reservation.user_id
+    
     render json: @reservation.with_child_data, status: 200
   rescue ActiveRecord::RecordNotFound
     not_found('Reservation')
@@ -27,6 +29,8 @@ class ReservationsController < ApplicationController
   end
 
   def destroy
+    return forbidden unless @current_user.id == @reservation.user_id
+
     @reservation.destroy
     render json: @reservation, status: 200
   end
