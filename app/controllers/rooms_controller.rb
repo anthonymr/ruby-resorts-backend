@@ -23,7 +23,7 @@ class RoomsController < ApplicationController
     new_room = Room.new_with_image(room_params, params[:image])
 
     if new_room.save
-      render json: new_room, status: 201
+      render json: new_room.as_json_with_image(url_for(new_room.image)), status: 201
     else
       render json: { errors: new_room.errors.full_messages }, status: 400
     end
