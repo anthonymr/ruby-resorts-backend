@@ -19,14 +19,17 @@ RSpec.describe 'Rooms', type: :request do
   describe 'POST /api/v1/rooms' do
     it 'create a room' do
       file = fixture_file_upload(Rails.root.join('spec', 'fixtures', 'files', 'test.png'), 'image/jpg')
+      file = Base64.encode64(file.read)
 
       params = {
-        name: 'Room 1',
-        description: 'Room 1 description',
-        full_price: 100,
-        reservation_price: 10,
-        reservation_fee: 10,
-        rating: 5,
+        room: {
+          name: 'Room 1',
+          description: 'Room 1 description',
+          full_price: 100,
+          reservation_price: 10,
+          reservation_fee: 10,
+          rating: 5
+        },
         image: file
       }
 
@@ -39,14 +42,17 @@ RSpec.describe 'Rooms', type: :request do
   describe 'DELETE /api/v1/rooms' do
     it 'delete a room' do
       file = fixture_file_upload(Rails.root.join('spec', 'fixtures', 'files', 'test.png'), 'image/jpg')
+      file = Base64.encode64(file.read)
 
       params = {
-        name: 'Room 1',
-        description: 'Room 1 description',
-        full_price: 100,
-        reservation_price: 10,
-        reservation_fee: 10,
-        rating: 5,
+        room: {
+          name: 'Room 1',
+          description: 'Room 1 description',
+          full_price: 100,
+          reservation_price: 10,
+          reservation_fee: 10,
+          rating: 5
+        },
         image: file
       }
 
@@ -62,17 +68,19 @@ RSpec.describe 'Rooms', type: :request do
   describe 'GET /api/v1/rooms' do
     it 'get all rooms' do
       file = fixture_file_upload(Rails.root.join('spec', 'fixtures', 'files', 'test.png'), 'image/jpg')
+      file = Base64.encode64(file.read)
 
       params = {
-        name: 'Room 1',
-        description: 'Room 1 description',
-        full_price: 100,
-        reservation_price: 10,
-        reservation_fee: 10,
-        rating: 5,
+        room: {
+          name: 'Room 1',
+          description: 'Room 1 description',
+          full_price: 100,
+          reservation_price: 10,
+          reservation_fee: 10,
+          rating: 5
+        },
         image: file
       }
-
       post rooms_path, params:, headers: { Authorization: "Bearer #{@token}" }
 
       get rooms_path, headers: { Authorization: "Bearer #{@token}" }
@@ -84,14 +92,17 @@ RSpec.describe 'Rooms', type: :request do
   describe 'GET /api/v1/room/:id' do
     it 'get all rooms' do
       file = fixture_file_upload(Rails.root.join('spec', 'fixtures', 'files', 'test.png'), 'image/jpg')
+      file = Base64.encode64(file.read)
 
       params = {
-        name: 'Room 1',
-        description: 'Room 1 description',
-        full_price: 100,
-        reservation_price: 10,
-        reservation_fee: 10,
-        rating: 5,
+        room: {
+          name: 'Room 1',
+          description: 'Room 1 description',
+          full_price: 100,
+          reservation_price: 10,
+          reservation_fee: 10,
+          rating: 5
+        },
         image: file
       }
 

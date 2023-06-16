@@ -7,7 +7,6 @@ class Reservation < ApplicationRecord
   validates :start_date, comparison: { greater_than_or_equal_to: Date.today, message: 'Must be greater than today' }
   validates :end_date, comparison: { greater_than: :start_date, message: 'Must be greater than start date' }
   validates :room_id, presence: true
-  validates :user_id, presence: true
   validates :hotel_id, presence: true
 
   def calculate_amount!
@@ -15,6 +14,8 @@ class Reservation < ApplicationRecord
   end
 
   def calculate_amount
+    return 0 unless start_date.present? && end_date.present? && room_id.present?
+
     room = Room.find_by(id: room_id)
     room.reservation_price.present? ? (end_date - start_date).to_i * room.reservation_price : 0
   end

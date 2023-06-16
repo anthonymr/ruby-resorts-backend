@@ -2,10 +2,9 @@ require 'rails_helper'
 
 RSpec.describe 'Reservations', type: :request do
   before(:each) do
-    @user = User.create(name: 'Example User', username: 'username', email: 'user@gmail.com', password: 'password',
-                        role: 'admin')
+    @user = User.create(name: 'Example User', username: 'testuser', email: 'user@gmail.com', password: 'testpass')
     @user.update(role: 'admin')
-    params = { username: 'username', password: 'password' }
+    params = { username: @user.username, password: @user.password }
     post(authentication_path, params:)
     @token = JSON.parse(response.body)['token']
 
@@ -21,8 +20,12 @@ RSpec.describe 'Reservations', type: :request do
     )
     @room.save
 
+    Current.user = @user
+
     @reservation = Reservation.new(start_date: Date.today, end_date: Date.tomorrow, room_id: @room.id,
-                                   user_id: @user.id, hotel_id: @hotel.id)
+                                   hotel_id: @hotel.id)
+
+    @reservation.user_id = @user.id
     @reservation.save
   end
 
@@ -33,10 +36,6 @@ RSpec.describe 'Reservations', type: :request do
     end
 
     it 'returns all reservations in JSON format' do
-      # Create some sample reservations for testing
-      Reservation.create(start_date: Date.today, end_date: Date.tomorrow)
-      Reservation.create(start_date: Date.yesterday, end_date: Date.today)
-
       get '/api/v1/reservations', headers: { 'Authorization' => "Bearer #{@token}" }
       reservations_json = JSON.parse(response.body)
 
@@ -49,7 +48,6 @@ RSpec.describe 'Reservations', type: :request do
   describe 'GET /api/v1/reservations/:id' do
     it 'returns a specific reservation' do
       reservation = Reservation.create(start_date: Date.today, end_date: Date.tomorrow)
-
       get "/api/v1/reservations/#{reservation.id}", headers: { 'Authorization' => "Bearer #{@token}" }
       reservation_json = JSON.parse(response.body)
       reservation_hash = reservation_json.first # Assuming only one reservation is returned
@@ -76,7 +74,6 @@ RSpec.describe 'Reservations', type: :request do
       }
 
       post '/api/v1/reservations', params: valid_params, headers: { 'Authorization' => "Bearer #{@token}" }
-
       expect(response).to have_http_status(201)
       expect(Reservation.count).to eq(2)
     end
@@ -91,7 +88,6 @@ RSpec.describe 'Reservations', type: :request do
       }
 
       post '/api/v1/reservations', params: invalid_params, headers: { 'Authorization' => "Bearer #{@token}" }
-
       expect(response).to have_http_status(422)
       expect(Reservation.count).to eq(1)
     end
@@ -99,10 +95,7 @@ RSpec.describe 'Reservations', type: :request do
 
   describe 'DELETE /api/v1/reservations/:id' do
     it 'deletes a specific reservation' do
-      # reservation = Reservation.create(start_date: Date.today, end_date: Date.tomorrow)
-
       delete "/api/v1/reservations/#{@reservation.id}", headers: { 'Authorization' => "Bearer #{@token}" }
-
       expect(response).to have_http_status(200)
       expect(Reservation.count).to eq(0)
     end

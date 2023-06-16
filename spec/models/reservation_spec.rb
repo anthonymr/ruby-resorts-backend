@@ -12,6 +12,7 @@ RSpec.describe Reservation, type: :model do
     )
     @room.save
     @user = User.create(name: 'Example User', username: 'username', email: 'test@test.com', password: 'password')
+    Current.user = @user
     @hotel = Hotel.create(name: 'Example hotel', city: 'Example city')
     @reservation = Reservation.new(start_date: Date.today, end_date: Date.tomorrow, room_id: @room.id,
                                    user_id: @user.id, hotel_id: @hotel.id)
