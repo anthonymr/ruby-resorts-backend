@@ -19,7 +19,7 @@ class Reservation < ApplicationRecord
     room.reservation_price.present? ? (end_date - start_date).to_i * room.reservation_price : 0
   end
 
-  def with_child_data
+  def with_associations_data
     attributes.merge(
       hotel: hotel.attributes.except('created_at', 'updated_at'),
       room: room.attributes.except('created_at', 'updated_at'),
