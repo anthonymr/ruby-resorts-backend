@@ -5,14 +5,14 @@ class RoomsController < ApplicationController
 
   def index
     rooms = Room.all.with_attached_image.map do |room|
-      room.with_image(url_for(room.image), full_data: false)
+      room.as_json_with_image(url_for(room.image), full_data: false)
     end
 
     render json: rooms, status: 200
   end
 
   def show
-    render json: room.with_image(url_for(room.image)), status: 200
+    render json: room.as_json_with_image(url_for(room.image)), status: 200
   rescue ActiveRecord::RecordNotFound
     not_found('Room')
   end
