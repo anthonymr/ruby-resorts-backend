@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   skip_before_action :authenticate_user, only: :create
 
   def show
-    render json: current_user, status: 200
+    render json: Current.user, status: 200
   end
 
   def create
@@ -16,10 +16,10 @@ class UsersController < ApplicationController
 
   def update
     if params[:password].present?
-      if current_user.update(user_update_params)
-        render json: current_user.attributes.except('password', 'password_digest'), status: 200
+      if Current.user.update(user_update_params)
+        render json: Current.user.attributes.except('password', 'password_digest'), status: 200
       else
-        render json: { errors: current_user.errors.full_messages }, status: 400
+        render json: { errors: Current.user.errors.full_messages }, status: 400
       end
       return
     end
@@ -28,7 +28,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    current_user.destroy
+    Current.user.destroy
   end
 
   private
@@ -39,9 +39,5 @@ class UsersController < ApplicationController
 
   def user_update_params
     params.permit(:password)
-  end
-
-  def current_user
-    @current_user ||= User.find(params[:id])
   end
 end
