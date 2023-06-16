@@ -14,11 +14,11 @@ class AuthenticationController < ApplicationController
   end
 
   def destroy
-    @current_user = nil
+    Current.user = nil
     render json: { status: 200, message: 'Logged out' }
   end
 
   def show
-    render json: @current_user.attributes.except('password', 'password_digest'), status: 200
+    render json: Current.user.attributes.except('password', 'password_digest'), status: 200
   end
 end
