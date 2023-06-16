@@ -4,7 +4,7 @@ class ReservationsController < ApplicationController
   def index
     reservations = Current.user.reservations.includes(:user, :hotel, :room).all
 
-    reservations = reservations.map(&:with_child_data)
+    reservations = reservations.map(&:with_associations_data)
 
     render json: reservations, status: 200
   end
@@ -12,7 +12,7 @@ class ReservationsController < ApplicationController
   def show
     return forbidden unless Current.user.id == @reservation.user_id
 
-    render json: @reservation.with_child_data, status: 200
+    render json: @reservation.with_associations_data, status: 200
   rescue ActiveRecord::RecordNotFound
     not_found('Reservation')
   end
