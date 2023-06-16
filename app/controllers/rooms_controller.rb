@@ -18,7 +18,7 @@ class RoomsController < ApplicationController
   end
 
   def create
-    if @current_user.admin?
+    if Current.user.admin?
       new_room = Room.new_with_image(room_params, params[:image])
 
       if new_room.save
@@ -34,7 +34,7 @@ class RoomsController < ApplicationController
   end
 
   def destroy
-    if @current_user.admin?
+    if Current.user.admin?
       room.destroy
       render json: room, status: 200
       return
