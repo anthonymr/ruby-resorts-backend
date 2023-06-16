@@ -1,0 +1,405 @@
+---
+openapi: 3.0.1
+info:
+  title: "\U0001F48E Ruby Restors API V1"
+  version: 1.0.0
+  description: Ruby Restors API V1 endpoints
+components:
+  securitySchemes:
+    bearerAuth:
+      description: JWT Token for authentication, prefix it with Bearer
+      type: apiKey
+      name: Authorization
+      in: header
+  schemas:
+    user:
+      type: object
+      properties:
+        id:
+          type: number
+          example: '1'
+          description: Auto generated
+        name:
+          type: string
+          example: Jhon Doe
+          description: 'Max length: 55 chars'
+        email:
+          type: string
+          example: jhondoe@email.com
+          description: 'Max length: 55 chars, has to be unique.'
+        password:
+          type: string
+          example: '123456'
+          description: 'Max length: 55 chars'
+        username:
+          type: string
+          example: jhondoe
+          description: 'Max length: 55 chars, has to be unique.'
+      required:
+      - name
+      - email
+      - password
+      - username
+    hotel:
+      type: object
+      properties:
+        id:
+          type: number
+          example: '1'
+          description: Auto generated
+        name:
+          type: string
+          example: Jhon Doe
+          description: 'Max length: 55 chars'
+        city:
+          type: string
+          example: New York
+          description: 'Max length: 55 chars'
+      required:
+      - name
+      - city
+    room:
+      type: object
+      properties:
+        id:
+          type: number
+          example: '1'
+          description: Auto generated
+        name:
+          type: string
+          example: New room name
+          description: 'Max length: 55 chars'
+        description:
+          type: string
+          example: New room description
+          description: 'Max length: 550 chars'
+        full_price:
+          type: number
+          example: 100
+          description: Full room price per day
+        reservation_price:
+          type: number
+          example: 50
+          description: Reservation price per day
+        reservation_fee:
+          type: number
+          example: 10
+          description: Reservation fee per day
+        rating:
+          type: number
+          example: 4
+          description: Rating from 1 to 5
+        image:
+          type: string
+          description: Base64 image
+      required:
+      - name
+      - description
+      - full_price
+      - reservation_price
+      - reservation_fee
+      - image
+    reservation:
+      type: object
+      properties:
+        id:
+          type: number
+          example: '1'
+          description: Auto generated
+        user_id:
+          type: number
+          example: '1'
+          description: Auto assigned
+        room_id:
+          type: number
+          example: '1'
+          description: Room ID
+        start_date:
+          type: string
+          example: '2020-01-01'
+          description: 'Format: YYYY-MM-DD'
+        end_date:
+          type: string
+          example: '2020-01-01'
+          description: 'Format: YYYY-MM-DD'
+        amount:
+          type: number
+          example: 100
+          description: Auto calculated
+      required:
+      - room_id
+      - start_date
+      - end_date
+      - amount
+servers:
+- url: http://{defaultHost}
+  variables:
+    defaultHost:
+      default: localhost:3000
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: localhost:3000
+tags:
+- name: "\U0001F510 Authentication"
+  description: Authentication endpoints
+- name: "\U0001F465 Users"
+  description: Users endpoints
+- name: "\U0001F3E8 Hotels"
+  description: Hotels endpoints
+- name: "\U0001F6CC Rooms"
+  description: Rooms endpoints
+- name: "\U0001F5D3️ Reservations"
+  description: Reservations endpoints
+paths:
+  "/api/v1/authentication":
+    post:
+      tags:
+      - "\U0001F510 Authentication"
+      parameters:
+      - name: username
+        in: query
+        type: string
+        description: username
+        required: true
+      - name: password
+        in: query
+        type: string
+        description: password
+        required: true
+      summary: Authenticate user and return token
+      responses:
+        '200':
+          description: successful
+    delete:
+      tags:
+      - "\U0001F510 Authentication"
+      security:
+      - bearerAuth: []
+      summary: Destroy current session
+      responses:
+        '200':
+          description: successful
+    get:
+      tags:
+      - "\U0001F510 Authentication"
+      security:
+      - bearerAuth: []
+      summary: Show information about current authenticated user
+      responses:
+        '200':
+          description: successful
+  "/api/v1/users":
+    post:
+      tags:
+      - "\U0001F465 Users"
+      parameters:
+      - name: name
+        in: query
+        type: string
+        description: name
+        required: true
+      - name: email
+        in: query
+        type: string
+        description: email
+        required: true
+      - name: username
+        in: query
+        type: string
+        description: username
+        required: true
+      - name: password
+        in: query
+        type: string
+        description: password
+        required: true
+      summary: Create a new user
+      responses:
+        '200':
+          description: successful
+    patch:
+      tags:
+      - "\U0001F465 Users"
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: password
+        in: query
+        type: string
+        description: password
+        required: true
+      summary: Change current user's password
+      responses:
+        '200':
+          description: successful
+  "/api/v1/users/{id}":
+    parameters:
+    - name: id
+      in: path
+      type: string
+      description: id
+      required: true
+    delete:
+      tags:
+      - "\U0001F465 Users"
+      security:
+      - bearerAuth: []
+      summary: Delete a user
+      responses:
+        '200':
+          description: successful
+  "/api/v1/hotels":
+    get:
+      tags:
+      - "\U0001F3E8 Hotels"
+      security:
+      - bearerAuth: []
+      summary: List all hotels
+      responses:
+        '200':
+          description: successful
+  "/api/v1/rooms":
+    get:
+      tags:
+      - "\U0001F6CC Rooms"
+      security:
+      - bearerAuth: []
+      summary: List all rooms
+      responses:
+        '200':
+          description: successful
+    post:
+      tags:
+      - "\U0001F6CC Rooms"
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: name
+        in: query
+        type: string
+        description: name
+        required: true
+      - name: description
+        in: query
+        type: string
+        description: description
+        required: true
+      - name: full_price
+        in: query
+        type: string
+        description: full_price
+        required: true
+      - name: reservation_price
+        in: query
+        type: string
+        description: reservation_price
+        required: true
+      - name: reservation_price
+        in: query
+        type: string
+        description: reservation_price
+        required: true
+      - name: reservation_fee
+        in: query
+        type: string
+        description: reservation_fee
+        required: true
+      - name: rating
+        in: query
+        type: string
+        description: rating
+      summary: Create a new room
+      responses:
+        '200':
+          description: successful
+  "/api/v1/rooms/{id}":
+    parameters:
+    - name: id
+      in: path
+      type: string
+      description: id
+      required: true
+    get:
+      tags:
+      - "\U0001F6CC Rooms"
+      security:
+      - bearerAuth: []
+      summary: Show a room
+      responses:
+        '200':
+          description: successful
+    delete:
+      tags:
+      - "\U0001F6CC Rooms"
+      security:
+      - bearerAuth: []
+      summary: Delete a room
+      responses:
+        '200':
+          description: successful
+  "/api/v1/reservations":
+    get:
+      tags:
+      - "\U0001F5D3️ Reservations"
+      security:
+      - bearerAuth: []
+      summary: List all current user's reservations
+      responses:
+        '200':
+          description: successful
+    post:
+      tags:
+      - "\U0001F5D3️ Reservations"
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: hotel_id
+        in: query
+        type: string
+        description: hotel_id
+        required: true
+      - name: room_id
+        in: query
+        type: string
+        description: room_id
+        required: true
+      - name: start_date
+        in: query
+        type: string
+        description: start_date
+        required: true
+      - name: end_date
+        in: query
+        type: string
+        description: end_date
+        required: true
+      summary: Create new current user's reservation
+      responses:
+        '200':
+          description: successful
+  "/api/v1/reservations/{id}":
+    parameters:
+    - name: id
+      in: path
+      type: string
+      description: id
+      required: true
+    get:
+      tags:
+      - "\U0001F5D3️ Reservations"
+      security:
+      - bearerAuth: []
+      summary: Show a current user's reservation
+      responses:
+        '200':
+          description: successful
+    delete:
+      tags:
+      - "\U0001F5D3️ Reservations"
+      security:
+      - bearerAuth: []
+      summary: Delete a current user's reservation
+      responses:
+        '200':
+          description: successful

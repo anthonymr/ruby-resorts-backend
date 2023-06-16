@@ -10,6 +10,8 @@ class ReservationsController < ApplicationController
   end
 
   def show
+    return forbidden unless @current_user.id == @reservation.user_id
+
     render json: @reservation.with_child_data, status: 200
   rescue ActiveRecord::RecordNotFound
     not_found('Reservation')
@@ -17,6 +19,7 @@ class ReservationsController < ApplicationController
 
   def create
     reservation = Reservation.new(reservation_params)
+    reservation.user_id = @current_user.id
     reservation.calculate_amount!
     if reservation.save
       render json: reservation, status: :created
@@ -26,6 +29,8 @@ class ReservationsController < ApplicationController
   end
 
   def destroy
+    return forbidden unless @current_user.id == @reservation.user_id
+
     @reservation.destroy
     render json: @reservation, status: 200
   end
@@ -40,6 +45,6 @@ class ReservationsController < ApplicationController
   end
 
   def reservation_params
-    params.permit(:start_date, :end_date, :user_id, :hotel_id, :room_id)
+    params.permit(:start_date, :end_date, :hotel_id, :room_id)
   end
 end
