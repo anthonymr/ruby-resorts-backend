@@ -2,7 +2,7 @@ class ReservationsController < ApplicationController
   before_action :set_reservation, only: %i[show destroy]
 
   def index
-    reservations = @current_user.reservations.includes(:user, :hotel, :room).all
+    reservations = Current.user.reservations.includes(:user, :hotel, :room).all
 
     reservations = reservations.map(&:with_child_data)
 
@@ -10,7 +10,7 @@ class ReservationsController < ApplicationController
   end
 
   def show
-    return forbidden unless @current_user.id == @reservation.user_id
+    return forbidden unless Current.user.id == @reservation.user_id
 
     render json: @reservation.with_child_data, status: 200
   rescue ActiveRecord::RecordNotFound
@@ -19,7 +19,7 @@ class ReservationsController < ApplicationController
 
   def create
     reservation = Reservation.new(reservation_params)
-    reservation.user_id = @current_user.id
+    reservation.user_id = Current.user.id
     reservation.calculate_amount!
     if reservation.save
       render json: reservation, status: :created
@@ -29,7 +29,7 @@ class ReservationsController < ApplicationController
   end
 
   def destroy
-    return forbidden unless @current_user.id == @reservation.user_id
+    return forbidden unless Current.user.id == @reservation.user_id
 
     @reservation.destroy
     render json: @reservation, status: 200
@@ -39,7 +39,7 @@ class ReservationsController < ApplicationController
 
   def set_reservation
     @reservation = Reservation.find(params[:id])
-    return forbidden unless @current_user.id == @reservation.user_id
+    return forbidden unless Current.user.id == @reservation.user_id
   rescue ActiveRecord::RecordNotFound
     render json: { error: 'Reservation not found' }, status: :not_found
   end
