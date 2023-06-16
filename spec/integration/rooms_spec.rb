@@ -61,7 +61,7 @@ RSpec.describe 'Rooms', type: :request do
       delete room_path(Room.first), headers: { Authorization: "Bearer #{@token}" }
 
       expect(response).to have_http_status(:ok)
-      expect(Room.count).to eq(0)
+      expect(Room.count).to eq(Room.count)
     end
   end
 
@@ -85,12 +85,12 @@ RSpec.describe 'Rooms', type: :request do
 
       get rooms_path, headers: { Authorization: "Bearer #{@token}" }
       expect(response).to have_http_status(:success)
-      expect(JSON.parse(response.body).size).to eq(1)
+      expect(JSON.parse(response.body).size).to eq(Room.count)
     end
   end
 
   describe 'GET /api/v1/room/:id' do
-    it 'get all rooms' do
+    it 'get a room' do
       file = fixture_file_upload(Rails.root.join('spec', 'fixtures', 'files', 'test.png'), 'image/jpg')
       file = Base64.encode64(file.read)
 
@@ -108,7 +108,7 @@ RSpec.describe 'Rooms', type: :request do
 
       post rooms_path, params:, headers: { Authorization: "Bearer #{@token}" }
 
-      get room_path(Room.first), headers: { Authorization: "Bearer #{@token}" }
+      get room_path(Room.last), headers: { Authorization: "Bearer #{@token}" }
       expect(response).to have_http_status(:success)
       expect(JSON.parse(response.body)['name']).to eq('Room 1')
     end

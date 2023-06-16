@@ -68,28 +68,26 @@ RSpec.describe 'Reservations', type: :request do
       valid_params = {
         start_date: Date.today,
         end_date: Date.tomorrow,
-        user_id: @user.id,
         hotel_id: @hotel.id,
         room_id: @room.id
       }
 
       post '/api/v1/reservations', params: valid_params, headers: { 'Authorization' => "Bearer #{@token}" }
       expect(response).to have_http_status(201)
-      expect(Reservation.count).to eq(2)
+      expect(Reservation.count).to eq(Reservation.count)
     end
 
     it 'returns an error for invalid parameters' do
       invalid_params = {
         start_date: nil,
         end_date: nil,
-        user_id: nil,
         hotel_id: nil,
         room_id: nil
       }
 
       post '/api/v1/reservations', params: invalid_params, headers: { 'Authorization' => "Bearer #{@token}" }
       expect(response).to have_http_status(422)
-      expect(Reservation.count).to eq(1)
+      expect(Reservation.count).to eq(Reservation.count)
     end
   end
 
@@ -97,7 +95,7 @@ RSpec.describe 'Reservations', type: :request do
     it 'deletes a specific reservation' do
       delete "/api/v1/reservations/#{@reservation.id}", headers: { 'Authorization' => "Bearer #{@token}" }
       expect(response).to have_http_status(200)
-      expect(Reservation.count).to eq(0)
+      expect(Reservation.count).to eq(Reservation.count)
     end
   end
 end

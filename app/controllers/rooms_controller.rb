@@ -1,7 +1,5 @@
 class RoomsController < ApplicationController
-  before_action do
-    ActiveStorage::Current.host = request.base_url
-  end
+  include ActiveStorage::SetCurrent
 
   def index
     rooms = Room.all.with_attached_image.map do |room|
