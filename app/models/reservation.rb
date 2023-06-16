@@ -4,8 +4,8 @@ class Reservation < ApplicationRecord
   belongs_to :room
   validates :start_date, presence: true, format: { with: /\d{4}-\d{2}-\d{2}/, message: 'Format: YYYY-MM-DD' }
   validates :end_date, presence: true, format: { with: /\d{4}-\d{2}-\d{2}/, message: 'Format: YYYY-MM-DD' }
-  validates :start_date, comparison: { greater_than_or_equal_to: Date.today, message: 'Start date must be greater than today' }
-  validates :end_date, comparison: { greater_than: :start_date, message: 'End date must be greater than start date' }
+  validates :start_date, comparison: { greater_than_or_equal_to: Date.today, message: 'Must be greater than today' }
+  validates :end_date, comparison: { greater_than: :start_date, message: 'Must be greater than start date' }
   validates :room_id, presence: true
   validates :user_id, presence: true
   validates :hotel_id, presence: true
