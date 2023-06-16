@@ -3,9 +3,7 @@ class ReservationsController < ApplicationController
 
   def index
     reservations = Current.user.reservations.includes(:user, :hotel, :room).all
-
     reservations = reservations.map(&:with_associations_data)
-
     render json: reservations, status: 200
   end
 
@@ -18,9 +16,7 @@ class ReservationsController < ApplicationController
   end
 
   def create
-    reservation = Reservation.new(reservation_params)
-    reservation.user_id = Current.user.id
-    reservation.calculate_amount!
+    reservation = Reservation.new_with_amount(reservation_params)
     if reservation.save
       render json: reservation, status: :created
     else

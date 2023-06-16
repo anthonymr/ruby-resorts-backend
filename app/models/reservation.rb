@@ -26,4 +26,11 @@ class Reservation < ApplicationRecord
       user: user.attributes.except('created_at', 'updated_at', 'password_digest', 'password')
     )
   end
+
+  def self.new_with_amount(params)
+    reservation = new(params)
+    reservation.user_id = Current.user.id
+    reservation.calculate_amount!
+    reservation
+  end
 end

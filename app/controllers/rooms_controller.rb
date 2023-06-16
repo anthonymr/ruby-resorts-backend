@@ -18,29 +18,22 @@ class RoomsController < ApplicationController
   end
 
   def create
-    if Current.user.admin?
-      new_room = Room.new_with_image(room_params, params[:image])
+    return forbidden unless Current.user.admin?
 
-      if new_room.save
-        render json: new_room, status: 201
-      else
-        render json: { errors: new_room.errors.full_messages }, status: 400
-      end
+    new_room = Room.new_with_image(room_params, params[:image])
 
-      return
+    if new_room.save
+      render json: new_room, status: 201
+    else
+      render json: { errors: new_room.errors.full_messages }, status: 400
     end
-
-    forbidden
   end
 
   def destroy
-    if Current.user.admin?
-      room.destroy
-      render json: room, status: 200
-      return
-    end
+    return forbidden unless Current.user.admin?
 
-    forbidden
+    room.destroy
+    render json: room, status: 200
   rescue ActiveRecord::RecordNotFound
     not_found('Room')
   end
