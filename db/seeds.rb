@@ -20,6 +20,8 @@ Hotel.create(name: 'Ruby Marseille', city: 'Marseille')
 Hotel.create(name: 'Ruby Sevilla', city: 'Sevilla')
 Hotel.create(name: 'Ruby Sylt', city: 'Sylt')
 
+Room.destroy_all
+
 # first room
 room1 = Room.new(
     name: 'Ruby',
