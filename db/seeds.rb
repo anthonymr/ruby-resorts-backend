@@ -10,6 +10,8 @@ user = User.new(name: 'Example User', username: 'admin', email: 'test@test.com',
 user.role = 'admin'
 user.save
 
+Hotel.destroy_all
+
 Hotel.create(name: 'Ruby Amsterdam', city: 'Amsterdam')
 Hotel.create(name: 'Ruby Valencia', city: 'Valencia')
 Hotel.create(name: 'Ruby Vienna', city: 'Vienna')
