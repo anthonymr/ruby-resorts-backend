@@ -7,7 +7,7 @@
 #   Character.create(name: "Luke", movie: movies.first)
 
 user = User.new(name: 'Example User', username: 'admin', email: 'test@test.com', password: 'admin')
-user.update(role: 'admin')
+user.role = 'admin'
 user.save
 
 Hotel.create(name: 'Ruby Amsterdam', city: 'Amsterdam')
