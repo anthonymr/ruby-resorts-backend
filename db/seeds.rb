@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-def creatRoom(room_params, image)
+def create_room(room_params, image)
     room = Room.new(room_params)
     room.image.attach(
         io: File.open(Rails.root.join('app', 'assets', 'images', image)),
@@ -34,7 +34,7 @@ Hotel.create(name: 'Ruby Sylt', city: 'Sylt')
 Room.destroy_all
 
 # first room
-creatRoom({
+create_room({
     name: 'Ruby',
     description: 'Ruby Suites offer the best we at Ruby Resorts have to offer. The suites come with 5-star amenities',
     full_price: 100,
@@ -44,7 +44,7 @@ creatRoom({
 }, 'room1.jpg')
 
 # second room
-creatRoom({
+create_room({
     name: 'Emerald',
     description: 'Emerald Suites are second only to our Ruby Suites when it comes to luxury. The suites come with 5-star amenities',
     full_price: 200,
@@ -54,7 +54,7 @@ creatRoom({
 }, 'room2.jpg')
 
 # third room
-creatRoom({
+create_room({
     name: 'Diamond',
     description: 'Diamond Suites strike the right balance between luxury and price. The suites have family-friendly amenities',
     full_price: 300,
@@ -64,7 +64,7 @@ creatRoom({
 }, 'room3.jpg')
 
 # fourth room
-creatRoom({
+create_room({
     name: 'Gold',
     description: 'Traveling for work or pleasure or both? Our Gold Executive suites offer amenities suited for your business trips.',
     full_price: 100,
@@ -75,7 +75,7 @@ creatRoom({
 
 # fifth room
 
-creatRoom({
+create_room({
     name: 'Silver',
     description: 'Silver Family Suites are well-equipped to accommodate your family during your vacation or getaways. ',
     full_price: 100,
