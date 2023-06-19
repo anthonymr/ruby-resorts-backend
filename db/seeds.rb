@@ -6,6 +6,16 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
+def creatRoom(room_params, image)
+    room = Room.new(room_params)
+    room.image.attach(
+        io: File.open(Rails.root.join('app', 'assets', 'images', image)),
+        filename: image,
+        content_type: 'image/jpeg'
+    )
+    room.save
+end
+
 User.where(email: 'test@test.com').or(User.where(username: 'admin')).destroy_all
 user = User.new(name: 'Example User', username: 'admin', email: 'test@test.com', password: 'admin123')
 user.role = 'admin'
@@ -24,92 +34,52 @@ Hotel.create(name: 'Ruby Sylt', city: 'Sylt')
 Room.destroy_all
 
 # first room
-room1 = Room.new(
+creatRoom({
     name: 'Ruby',
     description: 'Ruby Suites offer the best we at Ruby Resorts have to offer. The suites come with 5-star amenities',
     full_price: 100,
     reservation_price: 10,
     reservation_fee: 10,
     rating: 5
-)
-
-room1.image.attach(
-    io: File.open(Rails.root.join('app', 'assets', 'images', 'room1.jpg')),
-    filename: 'room1.jpg',
-    content_type: 'image/jpeg'
-)
-
-room1.save
+}, 'room1.jpg')
 
 # second room
-room2 = Room.new(
+creatRoom({
     name: 'Emerald',
     description: 'Emerald Suites are second only to our Ruby Suites when it comes to luxury. The suites come with 5-star amenities',
     full_price: 200,
     reservation_price: 20,
     reservation_fee: 10,
     rating: 4
-)
-
-room2.image.attach(
-    io: File.open(Rails.root.join('app', 'assets', 'images', 'room2.jpg')),
-    filename: 'room2.jpg',
-    content_type: 'image/jpeg'
-)
-
-room2.save
+}, 'room2.jpg')
 
 # third room
-room3 = Room.new(
+creatRoom({
     name: 'Diamond',
     description: 'Diamond Suites strike the right balance between luxury and price. The suites have family-friendly amenities',
     full_price: 300,
     reservation_price: 10,
     reservation_fee: 10,
     rating: 4
-)
-
-room3.image.attach(
-    io: File.open(Rails.root.join('app', 'assets', 'images', 'room3.jpg')),
-    filename: 'room3.jpg',
-    content_type: 'image/jpeg'
-)
-
-room3.save
+}, 'room3.jpg')
 
 # fourth room
-room4 = Room.new(
+creatRoom({
     name: 'Gold',
     description: 'Traveling for work or pleasure or both? Our Gold Executive suites offer amenities suited for your business trips.',
     full_price: 100,
     reservation_price: 10,
     reservation_fee: 10,
     rating: 5
-)
-
-room4.image.attach(
-    io: File.open(Rails.root.join('app', 'assets', 'images', 'room4.jpg')),
-    filename: 'room4.jpg',
-    content_type: 'image/jpeg'
-)
-
-room4.save
+}, 'room4.jpg')
 
 # fifth room
 
-room5 = Room.new(
+creatRoom({
     name: 'Silver',
     description: 'Silver Family Suites are well-equipped to accommodate your family during your vacation or getaways. ',
     full_price: 100,
     reservation_price: 10,
     reservation_fee: 10,
     rating: 5
-)
-
-room5.image.attach(
-    io: File.open(Rails.root.join('app', 'assets', 'images', 'room5.jpg')),
-    filename: 'room5.jpg',
-    content_type: 'image/jpeg'
-)
-
-room5.save
+}, 'room5.jpg')
