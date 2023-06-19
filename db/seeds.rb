@@ -6,7 +6,8 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-user = User.new(name: 'Example User', username: 'admin', email: 'test@test.com', password: 'admin')
+User.where(email: 'test@test.com').or(User.where(username: 'admin')).destroy_all
+user = User.new(name: 'Example User', username: 'admin', email: 'test@test.com', password: 'admin123')
 user.role = 'admin'
 user.save
 
