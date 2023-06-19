@@ -4,6 +4,7 @@ require_relative './swagger_resources/swagger_servers'
 require_relative './swagger_resources/swagger_endpoints'
 require_relative './swagger_resources/swagger_tags'
 require_relative './swagger_resources/swagger_components'
+require_relative './swagger_resources/swagger_fixtures'
 
 RSpec.configure do |config|
   config.swagger_root = Rails.root.join('swagger').to_s

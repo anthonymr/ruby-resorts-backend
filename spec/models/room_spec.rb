@@ -50,8 +50,8 @@ RSpec.describe Room, type: :model do
     expect(@room).to_not be_valid
   end
 
-  it 'is not valid with a description longer than 55 characters' do
-    @room.description = 'a' * 56
+  it 'is not valid with a description longer than 500 characters' do
+    @room.description = 'a' * 501
     expect(@room).to_not be_valid
   end
 

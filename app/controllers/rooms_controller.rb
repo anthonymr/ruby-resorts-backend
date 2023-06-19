@@ -1,46 +1,37 @@
 class RoomsController < ApplicationController
-  before_action do
-    ActiveStorage::Current.host = request.base_url
-  end
+  include ActiveStorage::SetCurrent
 
   def index
     rooms = Room.all.with_attached_image.map do |room|
-      room.with_image(url_for(room.image), full_data: false)
+      room.as_json_with_image(url_for(room.image), full_data: false)
     end
 
     render json: rooms, status: 200
   end
 
   def show
-    render json: room.with_image(url_for(room.image)), status: 200
+    render json: room.as_json_with_image(url_for(room.image)), status: 200
   rescue ActiveRecord::RecordNotFound
     not_found('Room')
   end
 
   def create
-    if @current_user.admin?
-      new_room = Room.new_with_image(room_params, params[:image])
+    return forbidden unless Current.user.admin?
 
-      if new_room.save
-        render json: new_room, status: 201
-      else
-        render json: { errors: new_room.errors.full_messages }, status: 400
-      end
+    new_room = Room.new_with_image(room_params, params[:image])
 
-      return
+    if new_room.save
+      render json: new_room.as_json_with_image(url_for(new_room.image)), status: 201
+    else
+      render json: { errors: new_room.errors.full_messages }, status: 400
     end
-
-    forbidden
   end
 
   def destroy
-    if @current_user.admin?
-      room.destroy
-      render json: room, status: 200
-      return
-    end
+    return forbidden unless Current.user.admin?
 
-    forbidden
+    room.destroy
+    render json: room, status: 200
   rescue ActiveRecord::RecordNotFound
     not_found('Room')
   end

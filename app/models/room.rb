@@ -2,15 +2,15 @@ class Room < ApplicationRecord
   has_one_attached :image
   has_many :reservations, dependent: :destroy
 
-  validates :name, presence: true, length: { maximum: 55 }
-  validates :description, presence: true, length: { maximum: 500 }
+  validates :name, presence: true, length: { minimum: 3, maximum: 55 }
+  validates :description, presence: true, length: { minimum: 10, maximum: 500 }
   validates :full_price, presence: true, numericality: { greater_than: 0 }
   validates :reservation_price, presence: true, numericality: { greater_than: 0 }
   validates :reservation_fee, presence: true, numericality: { greater_than: 0 }
   validates :rating, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 5 }
   validates :image, presence: true
 
-  def with_image(image_url, full_data: true)
+  def as_json_with_image(image_url, full_data: true)
     return as_json unless image.attached?
     return as_json.merge(image_url:) if full_data
 
@@ -21,7 +21,7 @@ class Room < ApplicationRecord
     return Room.new(room_params.except(:image)) unless image.present?
 
     new_room = Room.new(room_params.except(:image))
-    decoded_data = Base64.decode64(image.split(',')[1])
+    decoded_data = Base64.decode64(image.split(',').last)
 
     new_room.image = {
       io: StringIO.new(decoded_data),
