@@ -136,12 +136,26 @@ Install this project with:
 
 The above command installs necessary gems used in the project
 
+Make sure you have the right PosgreSQL configuration in the [database config](./config/database.yml) file
+
+Create database with this commmand:
+
+```sh
+  rails db:create
+```
+
+Seed your database with this command ([see seed file](./db/seeds.rb)):
+
+```sh
+  rails db:seed
+```
+
 ### Usage
 
 To run the project, execute the following command:
 
 ```sh
-  npm rails s
+  rails s
 ```
 
 The above command starts the rails server.
