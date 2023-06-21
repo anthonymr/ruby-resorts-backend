@@ -41,6 +41,17 @@
 ### Front end
 The front end part of the project can be found in this repo: [Frontend repository](https://github.com/anthonymr/ruby-resorts-frontend)
 
+## Team members
+We are a team of four members for this project.
+- Anthony Martin
+- Ghulam Subbhani
+- Raphael Okolo
+- Ram Kumar Karuppusamy
+
+## Application's admin credentials for evaluation
+username : admin <br />
+password : admin123
+
 ### API Documentation
 
 Here you can find the [Project API documentation](https://ruby-resorts-backend.onrender.com/api-docs/index.html)
